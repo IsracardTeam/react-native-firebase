@@ -7,6 +7,7 @@ import android.util.Log;
 import com.facebook.react.HeadlessJsTaskService;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.sdk.ida.callvu.CallVU;
 
 import io.invertase.firebase.Utils;
 
@@ -18,6 +19,10 @@ public class RNFirebaseMessagingService extends FirebaseMessagingService {
   @Override
   public void onMessageReceived(RemoteMessage message) {
     Log.d(TAG, "onMessageReceived event received");
+
+    if(CallVU.get(this).notify(message)){
+      return;
+    }
 
     if (message.getNotification() != null) {
       // It's a notification, pass to the Notifications module
